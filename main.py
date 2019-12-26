@@ -33,7 +33,7 @@ class SeaofBTCapp(tk.Tk):
         frame.grid(row=0, column=0, sticky="nsew")
 
         self.show_frame(StartPage)
-
+        
     def show_frame(self, cont):
 
         frame = self.frames[cont]
@@ -44,9 +44,15 @@ class StartPage(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self,parent)
+        self.configure(background="#ffffff")
         lbl = Label(text="SYOOGLE")
         lbl.grid(row=0,column=0,padx=5,pady=5)
         lbl.configure(background="#8000ff",foreground="#ffffff",font="Arial 40",relief="flat")
+
+        lbl1 = Label(text = "ENTER COLLEGE NAME / COLLEGE CODE / TEAM NAME")
+        lbl1.grid(row=1,column=0,padx=15,pady=15)
+        lbl1.configure(background="#ffffff",foreground="#000000",font="-family {Arial Black} -size 24 -weight bold -slant italic",relief="flat")
+
 
 
 app = SeaofBTCapp()
