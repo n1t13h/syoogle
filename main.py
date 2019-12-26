@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import *
+from tkinter import ttk
+from ttkthemes import ThemedTk
 LARGE_FONT= ("Verdana", 12)
 
 class SeaofBTCapp(tk.Tk):
@@ -53,7 +55,11 @@ class StartPage(tk.Frame):
         lbl1.grid(row=1,column=0,padx=15,pady=15)
         lbl1.configure(background="#ffffff",foreground="#000000",font="-family {Arial Black} -size 24 -weight bold -slant italic",relief="flat")
 
+        collegeCode = ttk.Entry()
+        collegeCode.grid(row=2,column=0,padx=5,pady=5)
+        collegeCode.configure(background="#ffffff",foreground="#8000ff",font="-family {Arial Black} -size 20 -weight bold -slant italic")
 
+        
 
 app = SeaofBTCapp()
 app.mainloop()
