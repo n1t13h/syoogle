@@ -2,12 +2,13 @@ import tkinter as tk
 from datetime import datetime
 from tkinter import messagebox
 LARGE_FONT= ("Verdana", 12)
+import time
 
 #VARIABLES
 que1 = "Who was the first Marvel hero to get a sequel?"
 ans1 = "ironman"
-clue1 = "U2FsdGVkX1/kfrltdoLLKU+OSSRBFz8TTMw+yEOpMTI=" #3DES
-clue1Ans = "Avengers"
+clue1 = "U2FsdGVkX1/L+2Wg+CsfVl/xE/uLadYSaRhQg8IZt4s14fBOL0lIavYYN+7NsFly" #3DES
+clue1Ans = "I am Ironman - Ironman 2007"
 
 class Syoogle(tk.Tk):
 
@@ -15,7 +16,11 @@ class Syoogle(tk.Tk):
         
         tk.Tk.__init__(self, *args, **kwargs)
         container = tk.Frame(self)
+        def doNothing():
+            pass
         self.title("{ SynTech-X '19 - '20 }")
+        # self.protocol('WM_DELETE_WINDOW',doNothing)
+
         # Gets the requested values of the height and widht.
         windowWidth = self.winfo_reqwidth()
         windowHeight = self.winfo_reqheight()
@@ -49,6 +54,7 @@ class Syoogle(tk.Tk):
 
         frame = self.frames[cont]
         frame.tkraise()
+    
 
         
 class StartPage(tk.Frame):
@@ -95,7 +101,7 @@ class PageOne(tk.Frame):
                 clue.insert(0,clue1)
                 clue.config(state="readonly")
 
-                lbl2['text']="DECRYPT THE TEXT !! Is That 3DES or ShiftCipher?"
+                lbl2['text']="DECRYPT THE TEXT !! How Many Movies?"
                 cluechkButton.config(state=tk.ACTIVE)
 
             else:
@@ -104,9 +110,13 @@ class PageOne(tk.Frame):
 
         def checkClue():
             if(clueAns.get()==clue1Ans):
-                pass
+                clueAns.configure(foreground="#27ae60")
+                clueAns.config(state="readonly")
+                cluechkButton.config(state=tk.DISABLED)
+                controller.show_frame(PageTwo)
+
             else:
-                pass
+                clueAns.configure(foreground="#ff0000")
 
 
 
@@ -136,7 +146,7 @@ class PageOne(tk.Frame):
         lbl2 = tk.Label(self,text="")
         lbl2.grid(row=2,column=2,padx=5,pady=5)
 
-        cluechkButton = tk.Button(self,text="Submit",command=checkAnswer,state=tk.DISABLED)
+        cluechkButton = tk.Button(self,text="Submit",command=checkClue,state=tk.DISABLED)
         cluechkButton.grid(row=4,column=0,columnspan=3)
         cluechkButton.configure(background="#000000",foreground="#33d9b2",font="-family {Arial Black} -size 12 -weight bold -slant italic")
 
@@ -144,21 +154,10 @@ class PageTwo(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        lbl = tk.Label(self,text="SYOOGLE")
+        lbl = tk.Label(self,text="PageTwo")
         lbl.grid(row=0,column=0,padx=5,pady=5)
         lbl.configure(background="#8000ff",foreground="#ffffff",font="Arial 40",relief="flat")
 
-        lbl1 = tk.Label(self,text = "ENTER COLLEGE NAME / COLLEGE CODE / TEAM NAME")
-        lbl1.grid(row=1,column=0,padx=15,pady=15)
-        lbl1.configure(background="#ffffff",foreground="#000000",font="-family {Arial Black} -size 24 -weight bold -slant italic",relief="flat")
-
-        self.collegeCode = tk.Entry(self)
-        self.collegeCode.grid(row=2,column=0,padx=5,pady=5)
-        self.collegeCode.configure(background="#ffffff",foreground="#8000ff",font="-family {Arial Black} -size 20 -weight bold -slant italic")
-
-        submitButton = tk.Button(self,command=lambda:controller.show_frame(PageOne),text="SUBMIT")
-        submitButton.configure(background="#000000",foreground="#ffffff",font="-family {Arial Black} -size 20 -weight bold -slant italic")
-        submitButton.grid(row=3,column=0,padx=5,pady=5)
         
 
 
