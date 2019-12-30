@@ -3,7 +3,10 @@ from datetime import datetime
 from tkinter import messagebox
 LARGE_FONT= ("Verdana", 12)
 import time
+import winsound
 
+filename = 'avengers.wav'
+winsound.PlaySound(filename, winsound.SND_ALIAS | winsound.SND_ASYNC | winsound.SND_LOOP)
 #VARIABLES
 que1 = "Who was the first Marvel hero to get a sequel?"
 ans1 = "ironman"
@@ -49,6 +52,7 @@ class Syoogle(tk.Tk):
             frame.grid(row=0, column=0, sticky="nsew")
 
         self.show_frame(StartPage)
+
 
     def show_frame(self, cont):
 
