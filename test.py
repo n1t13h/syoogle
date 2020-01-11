@@ -1,19 +1,27 @@
-class StartPage(tk.Frame):
+from GPSPhoto import gpsphoto
+# Get the data from image file and return a dictionary
+data = gpsphoto.getGPSData('tonysteve.jpg')
+rawData = gpsphoto.getRawData('tonysteve.jpg')
 
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self,parent)
-        lbl = Label(self,text="syoogle")
-        lbl.grid(row=0,column=0,padx=5,pady=5)
-        lbl.configure(background="#8000ff",foreground="#ffffff",font="Arial 40",relief="flat")
+# Print out just GPS Data of interest
+for tag in data.keys():
+    print("%s: %s" % (tag, data[tag]))
 
-        lbl1 = Label(self,text = "ENTER COLLEGE NAME / COLLEGE CODE / TEAM NAME")
-        lbl1.grid(row=1,column=0,padx=15,pady=15)
-        lbl1.configure(background="#ffffff",foreground="#000000",font="-family {Arial Black} -size 24 -weight bold -slant italic",relief="flat")
+# Print out raw GPS Data for debugging
+for tag in rawData.keys():
+    print("%s: %s" % (tag, rawData[tag]))
 
-        self.collegeCode = Entry(self)
-        self.collegeCode.grid(row=2,column=0,padx=5,pady=5)
-        self.collegeCode.configure(background="#ffffff",foreground="#8000ff",font="-family {Arial Black} -size 20 -weight bold -slant italic")
+# Create a GPSPhoto Object
+photo = gpsphoto.GPSPhoto()
+photo = gpsphoto.GPSPhoto("tonysteve.jpg")
 
-        submitButton = Button(self,command=lambda:controller.show_frame(PageOne),text="SUBMIT")
-        submitButton.configure(background="#000000",foreground="#ffffff",font="-family {Arial Black} -size 20 -weight bold -slant italic")
-        submitButton.grid(row=3,column=0,padx=5,pady=5)
+# Create GPSInfo Data Object
+info = gpsphoto.GPSInfo((18.9432135,72.8208109))
+info = gpsphoto.GPSInfo((18.9432135,72.8208109),
+                        timeStamp='2019:05:26 09:05:05')
+
+# Modify GPS Data
+photo.modGPSData(info, 'ts.jpg')
+
+# Strip GPS Data
+photo.stripData('ts.jpg')

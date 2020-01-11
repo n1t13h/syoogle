@@ -4,11 +4,14 @@ from tkinter import messagebox
 LARGE_FONT= ("Verdana", 12)
 import time
 import winsound
-
-filename = 'avengers.wav'
+import os
+from PIL import ImageTk, Image
+from tkinter import filedialog
+filename = "avengers.wav"
+import webbrowser
 winsound.PlaySound(filename, winsound.SND_ALIAS | winsound.SND_ASYNC | winsound.SND_LOOP)
 #VARIABLES
-que1 = "Who was the first Marvel hero to get a sequel?"
+que1 = "Who was the first Marvel Character to get a sequel?"
 ans1 = "ironman"
 clue1 = "U2FsdGVkX1/L+2Wg+CsfVl/xE/uLadYSaRhQg8IZt4s14fBOL0lIavYYN+7NsFly" #3DES
 clue1Ans = "I am Ironman - Ironman 2007"
@@ -35,7 +38,7 @@ class Syoogle(tk.Tk):
  
         # Positions the window in the center of the page.
         self.geometry("+{}+{}".format(positionRight, positionDown))
-
+        self.resizable(False,False)
         container.grid(row=0,column=0)
 
         container.grid_rowconfigure(0, weight=1)
@@ -43,7 +46,7 @@ class Syoogle(tk.Tk):
 
         self.frames = {}
 
-        for F in (StartPage, PageOne, PageTwo):
+        for F in (StartPage, PageOne, PageTwo,PageFive,PageThree):
 
             frame = F(container, self)
 
@@ -51,13 +54,14 @@ class Syoogle(tk.Tk):
 
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame(StartPage)
+        self.show_frame(PageThree)
 
 
-    def show_frame(self, cont):
-
-        frame = self.frames[cont]
-        frame.tkraise()
+    def show_frame(self, page_name):
+        for frame in self.frames.values():
+            frame.grid_remove()
+        frame = self.frames[page_name]
+        frame.grid()
     
 
         
@@ -65,6 +69,7 @@ class StartPage(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self,parent)
+        self.config(background="#dfe4ea")
         def onSubmit():
             if(len(self.collegeCode.get())>0):
                 file = open("game.txt","w")
@@ -73,7 +78,7 @@ class StartPage(tk.Frame):
                 file.close()
                 controller.show_frame(PageOne)
             else:
-                messagebox.showerror("Error","You Kidding?? Enter The Code!!!")
+                messagebox.showerror("Error","JARVIS : You Kidding?? Enter The Code!!!")
 
         lbl = tk.Label(self,text="SYOOGLE")
         lbl.grid(row=0,column=0,padx=5,pady=5)
@@ -85,14 +90,173 @@ class StartPage(tk.Frame):
 
         self.collegeCode = tk.Entry(self)
         self.collegeCode.grid(row=2,column=0,padx=5,pady=5)
-        self.collegeCode.configure(background="#ffffff",foreground="#8000ff",font="-family {Arial Black} -size 20 -weight bold -slant italic")
+        self.collegeCode.configure(background="#ced6e0",foreground="#5352ed",font="-family {Arial Black} -size 20 -weight bold -slant italic")
 
         submitButton = tk.Button(self,command=onSubmit,text="SUBMIT")
         submitButton.configure(background="#000000",foreground="#ffffff",font="-family {Arial Black} -size 20 -weight bold -slant italic")
         submitButton.grid(row=3,column=0,padx=5,pady=5)
 
 
+
+
 class PageOne(tk.Frame):
+
+    def __init__(self, parent, controller):
+        def checkScript():
+            print("Here")
+            if str(answer.get())=="142356":
+                answer.configure(foreground="#e74c3c")
+                lbl2['text']="You Got It Right!! Hold On Now Let Me Verify Again And Change The Screen"
+                time.sleep(5)
+                lbl2['text']="Okay Done"
+                controller.show_frame(PageTwo)
+
+            else:
+                lbl2['text']="JARVIS: "+answer.get()+" That Was Clearly Incorrect!!"
+
+
+                
+
+        tk.Frame.__init__(self, parent)
+        #Setting it up
+        spaceStone = Image.open("stones.png")
+        spaceStone = spaceStone.resize((800,200),Image.ANTIALIAS)
+        img = ImageTk.PhotoImage(spaceStone)
+
+        #Displaying it
+        imgLabel = tk.Label(self, image=img)
+        imgLabel.image = img
+        imgLabel.grid(row=0,column=0)
+        lbl1 = tk.Label(self,text = "What If Marvel Sends You An OTP based On Infinty Stones?")
+        lbl1.grid(row=1,column=0,padx=15,pady=15)
+        lbl1.configure(background="#ffffff",foreground="#000000",font="-family {Arial Black} -size 24 -weight bold -slant italic",relief="flat")
+        
+        lbl2 = tk.Label(self,text = "JARVIS: Take Your Time, It Won't Expire in 30 Secs!")
+        lbl2.grid(row=2,column=0)
+        lbl2.configure(background="#ffffff",foreground="#e55039",font="-family {Arial Black} -size 10 -weight bold -slant italic",relief="flat")
+        
+        
+        
+        answer = tk.Entry(self,width=20)
+        answer.grid(row=3,column=0,padx=5,pady=5,ipadx=100)
+        # answer.config(state="disabled")
+        answer.configure(background="#ffffff",foreground="#0c2461",font="-family {Arial Black} -size 12 -weight bold -slant italic")
+        
+        cluechkButton = tk.Button(self,text="Submit",command=checkScript)
+        cluechkButton.grid(row=4,column=0)
+        cluechkButton.configure(background="#000000",foreground="#33d9b2",font="-family {Arial Black} -size 12 -weight bold -slant italic")
+
+
+
+class PageTwo(tk.Frame):
+
+    def __init__(self, parent, controller):
+        
+        def checkans():
+            if(answer.get()=="103.21.58.98"):
+                answer.configure(foreground="#4cd137")
+                self.verfiyans=True
+                answer.config(state=tk.DISABLED)
+            else:
+                messagebox.showerror("Error","Incorrect Address! Check the GPS Properly!")   
+            
+            if(answer1.get()=="127.0.0.1"):
+                answer1.configure(foreground="#4cd137")
+                self.verfiyans1=True
+                answer1.config(state=tk.DISABLED)
+            else:
+                messagebox.showerror("Error","JARVIS: Never Forget The Local Address!!")
+            
+            if(answer.get()=="103.21.58.98" and answer1.get()=="127.0.0.1"):
+                chkButton.config(state="active")
+
+        def openBrowser():
+            webbrowser.open("https://www.google.com/maps/place/RD+and+SH+National+College+and+SWA+Science+College/@19.0641424,72.8329734,17z/data=!3m1!4b1!4m5!3m4!1s0x3be7c916d68399f7:0x7fb4b43fee5ee7d3!8m2!3d19.0641424!4d72.8351621")
+        
+        tk.Frame.__init__(self, parent)
+        lbl1 = tk.Label(self,text = "What's The Address Of RD National College?")
+        lbl1.grid(row=1,column=0,padx=15,pady=15)
+        lbl1.configure(foreground="#474787",font="-family {Arial Black} -size 16 -weight bold -slant italic",relief="flat")
+
+        answer = tk.Entry(self,width=10)
+        answer.grid(row=1,column=1,padx=5,pady=5,ipadx=100)
+        # answer.config(state="disabled")
+        answer.configure(background="#ffffff",foreground="#0c2461",font="-family {Arial Black} -size 12 -weight bold -slant italic")
+        
+        lbl2 = tk.Label(self,text = "What's The Local Address Of RD National College?")
+        lbl2.grid(row=2,column=0,padx=15,pady=15)
+        lbl2.configure(foreground="#474787",font="-family {Arial Black} -size 16 -weight bold -slant italic",relief="flat")
+
+        answer1 = tk.Entry(self,width=10)
+        answer1.grid(row=2,column=1,padx=5,pady=5,ipadx=100)
+        # answer.config(state="disabled")
+        answer1.configure(background="#ffffff",foreground="#0c2461",font="-family {Arial Black} -size 12 -weight bold -slant italic")
+
+        submitButton = tk.Button(self,text="CHECK",command=checkans)
+        submitButton.grid(row=3,column=0)
+        submitButton.configure(background="#000000",foreground="#33d9b2",font="-family {Copperplate Gothic Bold} -size 14")
+
+        openB = tk.Button(self,text="Open Maps",command=openBrowser)
+        openB.grid(row=3,column=1)
+        openB.configure(background="#000000",foreground="#33d9b2",font="-family {Copperplate Gothic Bold} -size 14")
+
+        chkButton = tk.Button(self,text="CONTINUE",command=lambda:controller.show_frame(PageFive),state=tk.DISABLED)
+        chkButton.grid(row=3,column=2)
+        chkButton.configure(background="#000000",foreground="#33d9b2",font="-family {Arial Black} -size 12 -weight bold -slant italic")
+
+        lbl2 = tk.Label(self,text = "JARVIS: Sry Boss! I can't help here!!! :(")
+        lbl2.grid(row=4,column=0,columnspan=3)
+        lbl2.configure(background="#ffffff",foreground="#e55039",font="-family {Arial Black} -size 10 -weight bold -slant italic",relief="flat")
+
+class PageThree(tk.Frame):
+
+    def __init__(self, parent, controller):
+        def checkScript():
+            print("Here")
+            if str(answer.get())=="Tony : You Trust Me, Steve: Yes I Do":
+                answer.configure(foreground="#e74c3c")
+                lbl2['text']="JARVIS: You are Smart!!"
+                time.sleep(5)
+                controller.show_frame(PageFive)
+
+            else:
+                lbl2['text']="JARVIS: "+answer.get()+" That Was Clearly Incorrect!!"
+
+
+                
+
+        tk.Frame.__init__(self, parent)
+        #Setting it up
+        import urllib.request
+        desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop') 
+        urllib.request.urlretrieve("https://i.ibb.co/Xjj8Zsn/tonysteve.jpg", os.path.normpath(desktop+"\\tonysteve.jpg"))
+        tonysteve = Image.open("tonysteve.jpg")
+        tonysteve = tonysteve.resize((800,200),Image.ANTIALIAS)
+        img = ImageTk.PhotoImage(tonysteve)
+
+        #Displaying it
+        imgLabel = tk.Label(self, image=img)
+        imgLabel.image = img
+        imgLabel.grid(row=0,column=0)
+        lbl1 = tk.Label(self,text = "You Need A Password To Continue!!")
+        lbl1.grid(row=1,column=0,padx=15,pady=15)
+        lbl1.configure(background="#ffffff",foreground="#000000",font="-family {Geeza Pro} -size 24 -weight bold -slant italic",relief="flat")
+        
+        lbl2 = tk.Label(self,text = "JARVIS: There is No Coming Back!!! Also You may set this has wallpaper if you like it, Check The Desktop for Image")
+        lbl2.grid(row=2,column=0)
+        lbl2.configure(background="#ffffff",foreground="#e55039",font="-family {Arial Black} -size 10 -weight bold -slant italic",relief="flat")
+        
+        
+        
+        answer = tk.Entry(self,width=20)
+        answer.grid(row=3,column=0,padx=5,pady=5,ipadx=100)
+        # answer.config(state="disabled")
+        answer.configure(background="#ffffff",foreground="#0c2461",font="-family {Arial Black} -size 12 -weight bold -slant italic")
+        
+        cluechkButton = tk.Button(self,text="Submit",command=checkScript)
+        cluechkButton.grid(row=4,column=0)
+        cluechkButton.configure(background="#000000",foreground="#33d9b2",font="-family {Arial Black} -size 12 -weight bold -slant italic")
+class PageFive(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -105,7 +269,7 @@ class PageOne(tk.Frame):
                 clue.insert(0,clue1)
                 clue.config(state="readonly")
 
-                lbl2['text']="DECRYPT THE TEXT !! How Many Movies?"
+                lbl2['text']="JARVIS: DECRYPT THE TEXT !! How Many Movies in the Sequel?"
                 cluechkButton.config(state=tk.ACTIVE)
 
             else:
@@ -117,7 +281,7 @@ class PageOne(tk.Frame):
                 clueAns.configure(foreground="#27ae60")
                 clueAns.config(state="readonly")
                 cluechkButton.config(state=tk.DISABLED)
-                controller.show_frame(PageTwo)
+                controller.show_frame(PageOne)
 
             else:
                 clueAns.configure(foreground="#ff0000")
@@ -152,18 +316,6 @@ class PageOne(tk.Frame):
 
         cluechkButton = tk.Button(self,text="Submit",command=checkClue,state=tk.DISABLED)
         cluechkButton.grid(row=4,column=0,columnspan=3)
-        cluechkButton.configure(background="#000000",foreground="#33d9b2",font="-family {Arial Black} -size 12 -weight bold -slant italic")
-
-class PageTwo(tk.Frame):
-
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        lbl = tk.Label(self,text="PageTwo")
-        lbl.grid(row=0,column=0,padx=5,pady=5)
-        lbl.configure(background="#8000ff",foreground="#ffffff",font="Arial 40",relief="flat")
-
-        
-
-
+        cluechkButton.configure(background="#000000",foreground="#33d9b2",font="-family {Arial Black} -size 12 -weight bold -slant italic")       
 app = Syoogle()
 app.mainloop()
