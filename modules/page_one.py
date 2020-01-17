@@ -2,11 +2,18 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import filedialog
 
+import time
+
+from modules.logger import Logger
+
 from PIL import ImageTk, Image
+
+import definitions
 
 class PageOne(tk.Frame):
 
     def __init__(self, parent, controller):
+        logger = Logger()
         def checkScript():
             print("Here")
             if str(answer.get())=="142356":
@@ -14,8 +21,8 @@ class PageOne(tk.Frame):
                 lbl2['text']="You Got It Right!! Hold On Now Let Me Verify Again And Change The Screen"
                 time.sleep(5)
                 lbl2['text']="Okay Done"
-                consoleLog(file,"1: "+str(datetime.now()))
-                controller.show_frame(PageTwo)
+                logger.add_message("Task one completed at {}".format(time.strftime("%m/%d/%y %r")))
+                controller.show_frame(definitions.PageTwo)
 
             else:
                 lbl2['text']="JARVIS: "+answer.get()+" That Was Clearly Incorrect!!"
@@ -25,7 +32,7 @@ class PageOne(tk.Frame):
 
         tk.Frame.__init__(self, parent)
         #Setting it up
-        spaceStone = Image.open(ROOT_DIR + "/assets/stones.png")
+        spaceStone = Image.open(definitions.ROOT_DIR + "/assets/stones.png")
         spaceStone = spaceStone.resize((800,200),Image.ANTIALIAS)
         img = ImageTk.PhotoImage(spaceStone)
 

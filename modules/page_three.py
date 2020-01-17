@@ -1,21 +1,30 @@
+import os
 
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import filedialog
 
+from PIL import ImageTk, Image
+
+import definitions
+
+import time
+
+from modules.logger import Logger
 
 class PageThree(tk.Frame):
 
     def __init__(self, parent, controller):
+        logger = Logger()
         def checkScript():
             print("Here")
             if str(answer.get())=="Tony : You Trust Me, Steve: Yes I Do":
                 answer.configure(foreground="#e74c3c")
                 lbl2['text']="JARVIS: You are Smart!!"
                 # time.sleep(5)
-                consoleLog(file,"3: "+str(datetime.now()))
+                logger.add_message("3: completed at {}".format(time.strftime("%m/%d/%y %r")))
 
-                controller.show_frame(PageFour)
+                controller.show_frame(definitions.PageFour)
 
             else:
                 lbl2['text']="JARVIS: "+answer.get()+" That Was Clearly Incorrect!!"
@@ -29,7 +38,7 @@ class PageThree(tk.Frame):
 
         desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop') 
         urllib.request.urlretrieve("https://i.ibb.co/Xjj8Zsn/tonysteve.jpg", os.path.normpath(desktop+"\\tonysteve.jpg"))
-        tonysteve = Image.open(ROOT_DIR + "/assets/tonysteve.jpg")
+        tonysteve = Image.open(definitions.ROOT_DIR + "/assets/tonysteve.jpg")
         tonysteve = tonysteve.resize((800,300),Image.ANTIALIAS)
         img = ImageTk.PhotoImage(tonysteve)
 

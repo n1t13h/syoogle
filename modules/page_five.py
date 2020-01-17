@@ -3,29 +3,39 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import filedialog
 
+from PIL import ImageTk, Image
+
+import webbrowser
+
+import definitions
+
+import time
+
+from modules.logger import Logger
 
 class PageFive(tk.Frame):
     def __init__(self, parent, controller):
+        logger = Logger()
         def checkClue():
             if(answer.get()=="Stan Lee" or answer.get()=="stan lee" or answer.get()=="stanlee"):
                 answer.config(state="disabled")
                 answer1.config(state="normal")
                 messagebox.showinfo("Info","JARVIS: You Know MCU well!! Check The PDF!!")
-                webbrowser.open("brail.pdf")
+                webbrowser.open(definitions.ROOT_DIR+"/assets/brail.pdf")
         
         def checkOne():
             print(answer1.get())
             if(answer1.get()=="part of the journey is the end"):
                 # print("Hereee")
-
-                controller.show_frame(PageSix)
+                logger.add_message("5: Completed at {}".format(time.strftime("%m/%d/%y %r")))
+                controller.show_frame(definitions.PageSix)
             else:
                 messagebox.showerror("Error","Incorrect!!")
             # print("Here One")    
 
 
         tk.Frame.__init__(self, parent)
-        tonysteve = Image.open(ROOT_DIR + "/assets/cap.jpg")
+        tonysteve = Image.open(definitions.ROOT_DIR + "/assets/cap.jpg")
         tonysteve = tonysteve.resize((800,300),Image.ANTIALIAS)
         img = ImageTk.PhotoImage(tonysteve)
 

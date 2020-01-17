@@ -3,18 +3,30 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import filedialog
 
+import definitions
+
+import time
+
+from modules.logger import Logger
 
 class PageFour(tk.Frame):
 
+
     def __init__(self, parent, controller):
+        logger = Logger()
+        self.que1 = "Who was the first Marvel Character to get a sequel?"
+        self.ans1 = "ironman"
+        self.clue1 = "U2FsdGVkX1/L+2Wg+CsfVl/xE/uLadYSaRhQg8IZt4s14fBOL0lIavYYN+7NsFly" #3DES
+        self.clue1Ans = "I am Ironman - Ironman 2007"
+
         tk.Frame.__init__(self, parent)
         def checkAnswer():
-            if(self.ans.get().lower()==ans1):
+            if(self.ans.get().lower()==self.ans1):
                 self.ans.configure(foreground="#27ae60")
                 self.ans.config(state="readonly")
                 
                 clue.config(state="normal")
-                clue.insert(0,clue1)
+                clue.insert(0,self.clue1)
                 clue.config(state="readonly")
 
                 lbl2['text']="JARVIS: DECRYPT THE TEXT !! How Many Movies in the Sequel?"
@@ -25,18 +37,19 @@ class PageFour(tk.Frame):
                 
 
         def checkClue():
-            if(clueAns.get()==clue1Ans):
+            if(clueAns.get()==self.clue1Ans):
                 clueAns.configure(foreground="#27ae60")
                 clueAns.config(state="readonly")
                 cluechkButton.config(state=tk.DISABLED)
-                controller.show_frame(PageFive)
+                logger.add_message("4: Completed at {}".format(time.strftime("%m/%d/%y %r")))
+                controller.show_frame(definitions.PageFive)
 
             else:
                 clueAns.configure(foreground="#ff0000")
 
 
 
-        lbl1 = tk.Label(self,text = que1)
+        lbl1 = tk.Label(self,text = self.que1)
         lbl1.grid(row=0,column=0,padx=15,pady=15,columnspan=3)
         lbl1.configure(background="#ffffff",foreground="#000000",font="-family {Arial Black} -size 24 -weight bold -slant italic",relief="flat")
         

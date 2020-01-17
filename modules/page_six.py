@@ -3,10 +3,18 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import filedialog
 
+from PIL import ImageTk, Image
+
+import definitions
+
+import time
+
+from modules.logger import Logger
 
 class PageSix(tk.Frame):
 
     def __init__(self, parent, controller):
+        logger = Logger()
         tk.Frame.__init__(self, parent)
         def answerVerify():
             if(answer1.get()=="groot" or answer1.get()=="Groot"):
@@ -19,13 +27,15 @@ class PageSix(tk.Frame):
             if(answer1.get()=="groot" or answer1.get()=="Groot"):
                 if(answer2.get()=="SteveRogers" or answer1.get()=="Steve Rogers" or answer2.get()=="steve rogers"):  
                     if(answer3.get()=="inevitable" or answer3.get()=="inevitable"):
+                        logger.add_message("6: Completed at {}".format(time.strftime("%m/%d/%y %r")))
+                        logger.on_end()
                         imgLabel.grid(row=6,column=0,columnspan=2)
 
                         
 
                 
                 
-        tonysteve = Image.open(ROOT_DIR + "/assets/cap.jpg")
+        tonysteve = Image.open(definitions.ROOT_DIR + "/assets/cap.jpg")
         tonysteve = tonysteve.resize((800,300),Image.ANTIALIAS)
         img = ImageTk.PhotoImage(tonysteve)
 
@@ -70,7 +80,7 @@ class PageSix(tk.Frame):
         chkButton.grid(row=5,column=0,columnspan=3)
         chkButton.configure(background="#000000",foreground="#33d9b2",font="-family {Arial Black} -size 12 -weight bold -slant italic")       
         
-        tonysteve = Image.open(ROOT_DIR + "/assets/qrcode.png")
+        tonysteve = Image.open(definitions.ROOT_DIR + "/assets/qrcode.png")
         tonysteve = tonysteve.resize((100,100),Image.ANTIALIAS)
         img = ImageTk.PhotoImage(tonysteve)
 

@@ -12,22 +12,18 @@ import os
 
 import webbrowser
 
-from modules import logger,page_one, page_two, page_three, page_four, page_five, page_six
+import definitions
 
-ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) 
+from modules.logger import Logger
 
-file = open(ROOT_DIR + "/game.txt","a")
+
+file = open(definitions.ROOT_DIR + "/game.txt","a")
 LARGE_FONT= ("Verdana", 12)
-filename = ROOT_DIR + "/assets/avengers.wav"
+filename = definitions.ROOT_DIR + "/assets/avengers.wav"
 winsound.PlaySound(filename, winsound.SND_ALIAS | winsound.SND_ASYNC | winsound.SND_LOOP)
-#VARIABLES
-que1 = "Who was the first Marvel Character to get a sequel?"
-ans1 = "ironman"
-clue1 = "U2FsdGVkX1/L+2Wg+CsfVl/xE/uLadYSaRhQg8IZt4s14fBOL0lIavYYN+7NsFly" #3DES
-clue1Ans = "I am Ironman - Ironman 2007"
-def consoleLog(file,txt):
-    file.write("\n"+txt)
-    file.close()
+
+
+logger = Logger()
 
 class Syoogle(tk.Tk):
 
@@ -59,14 +55,7 @@ class Syoogle(tk.Tk):
 
         self.frames = {}
 
-        PageOne = page_one.PageOne
-        PageTwo = page_two.PageTwo
-        PageThree = page_three.PageThree
-        PageFour = page_four.PageFour
-        PageFive = page_five.PageFive
-        PageSix = page_six.PageSix
-
-        for F in (StartPage, PageOne, PageTwo,PageFour,PageThree,PageFive,PageSix):
+        for F in (StartPage, definitions.PageOne, definitions.PageTwo, definitions.PageFour, definitions.PageThree, definitions.PageFive, definitions.PageSix):
 
             frame = F(container, self)
 
@@ -92,11 +81,8 @@ class StartPage(tk.Frame):
         self.config(background="#dfe4ea")
         def onSubmit():
             if(len(self.collegeCode.get())>0):
-                file = open("game.txt","w")
-                txt = self.collegeCode.get() + " started syoogle at " + str(datetime.now())
-                file.write(txt)
-                file.close()
-                controller.show_frame(PageOne)
+                logger.on_start(self.collegeCode.get())
+                controller.show_frame(definitions.PageOne)
             else:
                 messagebox.showerror("Error","JARVIS : You Kidding?? Enter The Code!!!")
 
@@ -117,12 +103,7 @@ class StartPage(tk.Frame):
         submitButton.grid(row=3,column=0,padx=5,pady=5)
 
 
-def on_closing():
-    consoleLog(file,"############################# SESSION ENDED #############################")
-
 if __name__ == "__main__":    
 
     app = Syoogle()
-    app.protocol('WM_DELETE_WINDOW',on_closing)
-    consoleLog(file,"############################# SESSION STARTED #############################")
     app.mainloop() 

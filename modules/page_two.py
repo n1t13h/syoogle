@@ -3,17 +3,23 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import filedialog
 
+import definitions
+
+import time
+
+from modules.logger import Logger
 
 class PageTwo(tk.Frame):
 
     def __init__(self, parent, controller):
-        
+        logger = Logger()
         def checkans():
             if(answer.get()=="103.21.58.98"):
                 answer.configure(foreground="#4cd137")
                 self.verfiyans=True
+                logger.add_message("2.1: completed at {}".format(time.strftime("%m/%d/%y %r")))
                 answer.config(state=tk.DISABLED)
-                consoleLog(file,"2.1: "+str(datetime.now()))
+                
 
             else:
                 messagebox.showerror("Error","Incorrect Address! Check the GPS Properly!")   
@@ -26,7 +32,7 @@ class PageTwo(tk.Frame):
                 messagebox.showerror("Error","JARVIS: Never Forget The Local Address!!")
             
             if(answer.get()=="103.21.58.98" and answer1.get()=="127.0.0.1"):
-                consoleLog(file,"2: "+str(datetime.now()))
+                logger.add_message("2: completed at {}".format(time.strftime("%m/%d/%y %r")))
 
                 chkButton.config(state="active")
 
@@ -60,7 +66,7 @@ class PageTwo(tk.Frame):
         openB.grid(row=3,column=1)
         openB.configure(background="#000000",foreground="#33d9b2",font="-family {Copperplate Gothic Bold} -size 14")
 
-        chkButton = tk.Button(self,text="CONTINUE",command=lambda:controller.show_frame(PageThree),state=tk.DISABLED)
+        chkButton = tk.Button(self,text="CONTINUE",command=lambda:controller.show_frame(definitions.PageThree),state=tk.DISABLED)
         chkButton.grid(row=3,column=2)
         chkButton.configure(background="#000000",foreground="#33d9b2",font="-family {Arial Black} -size 12 -weight bold -slant italic")
 
