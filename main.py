@@ -7,7 +7,7 @@ from tkinter import filedialog
 from datetime import datetime
 import time
 
-import winsound
+# import winsound
 import os
 
 import webbrowser
@@ -20,7 +20,7 @@ from modules.logger import Logger
 file = open(definitions.ROOT_DIR + "/game.txt","a")
 LARGE_FONT= ("Verdana", 12)
 filename = definitions.ROOT_DIR + "/assets/avengers.wav"
-winsound.PlaySound(filename, winsound.SND_ALIAS | winsound.SND_ASYNC | winsound.SND_LOOP)
+# winsound.PlaySound(filename, winsound.SND_ALIAS | winsound.SND_ASYNC | winsound.SND_LOOP)
 
 
 logger = Logger()

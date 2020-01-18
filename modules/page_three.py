@@ -36,7 +36,8 @@ class PageThree(tk.Frame):
         #Setting it up
         import urllib.request
 
-        desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop') 
+        # desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop') #For Windows 
+        desktop = os.path.join(os.path.join(os.environ['HOME']), 'Desktop') # For Linux
         urllib.request.urlretrieve("https://i.ibb.co/Xjj8Zsn/tonysteve.jpg", os.path.normpath(desktop+"\\tonysteve.jpg"))
         tonysteve = Image.open(definitions.ROOT_DIR + "/assets/tonysteve.jpg")
         tonysteve = tonysteve.resize((800,300),Image.ANTIALIAS)
